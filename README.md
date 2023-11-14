@@ -1,7 +1,7 @@
 简体中文 | [English](./README_en.md)
 
 
-![screenshot](https://github.com/engun/qt_uiautomatorviewer/master/screenshot/1.png)
+![screenshot](https://raw.githubusercontent.com/engun/qt_uiautomatorviewer/master/screenshot/1.png)
 
 
 # 说明
