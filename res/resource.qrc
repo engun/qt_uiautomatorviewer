@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>png/open.png</file>
+        <file>png/screenshot.png</file>
+        <file>png/list.png</file>
+        <file>png/option.png</file>
+        <file>png/refresh.png</file>
+        <file>png/up.png</file>
+        <file>png/down.png</file>
+    </qresource>
+</RCC>

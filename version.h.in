@@ -1,0 +1,6 @@
+#pragma once
+
+#define SOFTWARE_NAME "uav"
+#define SOFTWARE_DESC "qt_uiautomatorviewer"
+#define VERSION_NAME "${CMAKE_PROJECT_VERSION}"
+#define VERSION_NO 1
