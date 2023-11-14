@@ -1,4 +1,4 @@
-简体中文(./README.md) | English
+[简体中文](./README.md) | English
 
 
 ![screenshot](https://raw.githubusercontent.com/engun/qt_uiautomatorviewer/master/screenshot/1.png)
