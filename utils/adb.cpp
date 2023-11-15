@@ -11,16 +11,17 @@ Adb::Adb(QObject *parent) : QObject{parent} {
 
 // 同步
 bool Adb::exec(const QString &command, QString &output, QString &errOutput) {
-    QStringList commands(command.split(" "));
-    QString exe(commands.at(0));
-    commands.removeAt(0);
     QProcess process;
-    process.start(exe, commands);
+    process.startCommand(command);
     process.waitForFinished(5 * 60 * 1000);
     process.waitForBytesWritten();
     output = QString::fromLocal8Bit(process.readAllStandardOutput()).trimmed();
     errOutput = QString::fromLocal8Bit(process.readAllStandardError()).trimmed();
-    return errOutput.isEmpty();
+    qDebug().noquote() << "output: " << output;
+    if (process.exitCode() != 0) {
+        if (errOutput.isEmpty()) errOutput = output;
+    }
+    return errOutput.isEmpty() && process.exitCode() == 0;
 }
 
 // 同步
@@ -32,7 +33,7 @@ bool Adb::adb(QString command, QString &output, QString &errOutput) {
         return false;
     }
     command.replace("%s", "-s " + ipPort);
-    qDebug() << command;
+    qDebug().noquote() << command;
     return exec(command, output, errOutput);
 }
 
@@ -55,7 +56,6 @@ QStringList Adb::devices() {
 
 
 QString Adb::device() {
-
     if (setting->ipPort.isEmpty()) {
         QStringList deviceList = devices();
         if (deviceList.isEmpty()) return {};
