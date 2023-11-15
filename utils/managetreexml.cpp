@@ -5,7 +5,7 @@
 
 ManageTreeXml::ManageTreeXml() = default;
 
-bool ManageTreeXml::SaveTreeXml(QTreeWidget *pTree, const QString &xmlPath) {
+bool ManageTreeXml::saveTreeXml(QTreeWidget *pTree, const QString &xmlPath) {
     QDomDocument doc;
     QDomProcessingInstruction head = doc.createProcessingInstruction(
             "xml", R"(version="1.0" encoding="UTF-8")");
@@ -34,7 +34,7 @@ bool ManageTreeXml::SaveTreeXml(QTreeWidget *pTree, const QString &xmlPath) {
     return true;
 }
 
-bool ManageTreeXml::LoadTreeXml(QTreeWidget *pTree, const QString &xmlPath) {
+bool ManageTreeXml::loadTreeXml(QTreeWidget *pTree, const QString &xmlPath) {
     pTree->clear();
 
     if (xmlPath.isEmpty())

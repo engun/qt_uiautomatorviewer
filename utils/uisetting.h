@@ -1,10 +1,8 @@
-#ifndef UISETTING_H
-#define UISETTING_H
+#pragma once
 
-#include <QObject>
+#include <QString>
 
 class UiSetting {
-    explicit UiSetting();
 
 public:
     QString ipPort;
@@ -15,9 +13,4 @@ public:
     void saveIni() const;
 
     static UiSetting *getInstance();
-
-private:
-    static UiSetting *loadIni();
 };
-
-#endif // UISETTING_H

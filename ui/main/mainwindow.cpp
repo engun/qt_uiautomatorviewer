@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "utils/uisetting.h"
 #include "utils/adb.h"
-#include "ui/option/optiondialog.h"
+#include "ui/option/settingdialog.h"
 #include <QFileDialog>
 
 #include <QDebug>
@@ -34,11 +34,11 @@ void MainWindow::on_actOpen_triggered() {
     if (pngFile.isEmpty()) return;
     QString uixFile = QString(pngFile).toLower().replace(".png", ".xml");
     showPicture(pngFile, uixFile);
-    xml.LoadTreeXml(ui->treWidget, uixFile);
+    xml.loadTreeXml(ui->treWidget, uixFile);
 }
 
 void MainWindow::showPicture(const QString &pngFile, const QString &uixFile) {
-    // 做一些初始化
+    // init
     penStyle = Qt::DotLine;
     delete originalPixmap;
     searchResultItems.clear();
@@ -47,7 +47,7 @@ void MainWindow::showPicture(const QString &pngFile, const QString &uixFile) {
     this->uixPath = uixFile;
     if (pngFile.isEmpty() || uixFile.isEmpty()) return;
     originalPixmap = new QPixmap(pngFile);
-    xml.LoadTreeXml(ui->treWidget, uixFile);
+    xml.loadTreeXml(ui->treWidget, uixFile);
     if (originalPixmap != nullptr) {
         ui->lblPicture->resize(ui->widget->size());
         actualPixmap = originalPixmap->scaled(ui->lblPicture->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -64,7 +64,6 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     QMainWindow::resizeEvent(event);
 }
 
-// 转换为实际坐标
 QPoint MainWindow::picturePos2ActualPos(const QPoint &pos) {
     QSize actualSize = actualPixmap.size();
     int x0 = (ui->lblPicture->width() - actualSize.width()) / 2;
@@ -77,7 +76,6 @@ QPoint MainWindow::picturePos2ActualPos(const QPoint &pos) {
     return {x, y};
 }
 
-// 实际坐标缩放成Pixmap坐标
 QPoint MainWindow::actualPos2picturePos(const QPoint &pos) {
     QSize actualSize = actualPixmap.size();
     int x = pos.x() * actualPixmap.width() / (originalPixmap->width() - 1);
@@ -91,9 +89,9 @@ QPoint MainWindow::actualPos2picturePos(const QPoint &pos) {
 
 
 void MainWindow::on_treWidget_itemClicked(QTreeWidgetItem *item, int column) {
-    qDebug() << "colume: " << column;
+    qDebug() << "colum: " << column;
     showNodeDetail(item);
-    // 显示方框
+    // display box
     auto map = item->data(0, Qt::UserRole).value<QMap<QString, QString>>();
     solidLineRect = nodeBounds(map);
     penStyle = Qt::NoPen;
@@ -103,7 +101,7 @@ void MainWindow::on_treWidget_itemClicked(QTreeWidgetItem *item, int column) {
 void MainWindow::showNodeDetail(QTreeWidgetItem *treeWidgetItem) {
     auto map = treeWidgetItem->data(0, Qt::UserRole).value<QMap<QString, QString>>();
     initTableNodeIfNeed(map.keys());
-    // 显示Node Detail
+    // display node detail
     for (int row = 0; row < map.size(); ++row) {
         auto item = ui->tblNode->item(row, 0);
         ui->tblNode->item(row, 1)->setText(map[item->text()]);
@@ -196,12 +194,10 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-// 折叠
 void MainWindow::on_btnExpand_clicked() {
     ui->treWidget->expandAll();
 }
 
-// 搜索
 void MainWindow::on_edtSearch_textChanged(const QString &arg1) {
     searchResultItems = xml.search(ui->treWidget, arg1);
     if (!searchResultItems.isEmpty()) {
@@ -212,8 +208,6 @@ void MainWindow::on_edtSearch_textChanged(const QString &arg1) {
     }
 }
 
-
-// 上一个
 void MainWindow::on_btnLast_clicked() {
     if (!searchResultItems.isEmpty()) {
         searchResultIndex--;
@@ -224,7 +218,6 @@ void MainWindow::on_btnLast_clicked() {
     }
 }
 
-// 下一个
 void MainWindow::on_btnNext_clicked() {
     if (!searchResultItems.isEmpty()) {
         searchResultIndex++;
@@ -235,9 +228,7 @@ void MainWindow::on_btnNext_clicked() {
     }
 }
 
-// 截图
 void MainWindow::on_actScreenshot_triggered() {
-
     QString uiDumpPath = QDir::tempPath() + "/uidump.xml";
     QString uiShotPath = QDir::tempPath() + "/uidump.png";
 
@@ -316,7 +307,7 @@ void MainWindow::on_actScreenshot_triggered() {
 
 // 设置
 void MainWindow::on_actSetting_triggered() {
-    OptionDialog option(this);
+    SettingDialog option(this);
     option.exec();
 }
 

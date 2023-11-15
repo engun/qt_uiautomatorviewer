@@ -6,14 +6,11 @@
 
 auto setting = UiSetting::getInstance();
 
-Adb::Adb(QObject *parent)
-    : QObject{parent}
-{
+Adb::Adb(QObject *parent) : QObject{parent} {
 }
 
 // 同步
-bool Adb::exec(const QString& command, QString& output, QString& errOutput)
-{
+bool Adb::exec(const QString &command, QString &output, QString &errOutput) {
     QStringList commands(command.split(" "));
     QString exe(commands.at(0));
     commands.removeAt(0);
@@ -27,8 +24,7 @@ bool Adb::exec(const QString& command, QString& output, QString& errOutput)
 }
 
 // 同步
-bool Adb::adb(QString command, QString& output, QString& errOutput)
-{
+bool Adb::adb(QString command, QString &output, QString &errOutput) {
 
     QString ipPort = device();
     if (ipPort.isEmpty()) {
@@ -41,8 +37,7 @@ bool Adb::adb(QString command, QString& output, QString& errOutput)
 }
 
 
-QString Adb::exec(const QString& adb)
-{
+QString Adb::exec(const QString &adb) {
     QString output, errOutput;
     exec(adb, output, errOutput);
     return output.isEmpty() ? errOutput : output;

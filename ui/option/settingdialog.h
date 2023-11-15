@@ -3,16 +3,16 @@
 #include <QDialog>
 
 namespace Ui {
-    class OptionDialog;
+    class SettingDialog;
 }
 
-class OptionDialog : public QDialog {
+class SettingDialog : public QDialog {
 Q_OBJECT
 
 public:
-    explicit OptionDialog(QWidget *parent = nullptr);
+    explicit SettingDialog(QWidget *parent = nullptr);
 
-    ~OptionDialog() override;
+    ~SettingDialog() override;
 
 private slots:
 
@@ -23,7 +23,7 @@ private slots:
     void on_btnSavePath_clicked();
 
 private:
-    Ui::OptionDialog *ui;
+    Ui::SettingDialog *ui;
 
     void initData();
 };

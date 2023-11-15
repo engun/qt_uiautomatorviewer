@@ -113,17 +113,17 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>全部展开</string>
+           <string>Expand All</string>
           </property>
           <property name="text">
-           <string>...</string>
+           <string/>
           </property>
           <property name="icon">
            <iconset resource="../../res/resource.qrc">
             <normaloff>:/png/list.png</normaloff>:/png/list.png</iconset>
           </property>
           <property name="shortcut">
-           <string>Alt+Right</string>
+           <string notr="true">Alt+Right</string>
           </property>
          </widget>
         </item>
@@ -133,7 +133,7 @@
            <bool>true</bool>
           </property>
           <property name="placeholderText">
-           <string>请输入关键字，按回车搜索</string>
+           <string>Enter keywords</string>
           </property>
           <property name="clearButtonEnabled">
            <bool>true</bool>
@@ -149,7 +149,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>上一个</string>
+           <string>Last</string>
           </property>
           <property name="text">
            <string>...</string>
@@ -172,7 +172,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>下一个</string>
+           <string>Next</string>
           </property>
           <property name="text">
            <string>...</string>
@@ -207,7 +207,7 @@
            <bool>true</bool>
           </property>
           <property name="placeholderText">
-           <string>0, 0</string>
+           <string notr="true">0, 0</string>
           </property>
          </widget>
         </item>
@@ -255,7 +255,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>节点详情</string>
+           <string>Node details</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -337,10 +337,13 @@
      <normaloff>:/png/open.png</normaloff>:/png/open.png</iconset>
    </property>
    <property name="text">
-    <string>打开</string>
+    <string>Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string notr="true">Ctrl+O</string>
    </property>
   </action>
   <action name="actSetting">
@@ -349,10 +352,13 @@
      <normaloff>:/png/option.png</normaloff>:/png/option.png</iconset>
    </property>
    <property name="text">
-    <string>设置</string>
+    <string>Setting</string>
+   </property>
+   <property name="toolTip">
+    <string>Setting</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
+    <string notr="true">Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actScreenshot">
@@ -361,10 +367,13 @@
      <normaloff>:/png/screenshot.png</normaloff>:/png/screenshot.png</iconset>
    </property>
    <property name="text">
-    <string>截图</string>
+    <string>Screenshot</string>
+   </property>
+   <property name="toolTip">
+    <string>Screenshot</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+P</string>
+    <string notr="true">Ctrl+P</string>
    </property>
   </action>
  </widget>

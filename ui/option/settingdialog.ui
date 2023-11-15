@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OptionDialog</class>
- <widget class="OptionDialog" name="OptionDialog">
+ <class>SettingDialog</class>
+ <widget class="SettingDialog" name="SettingDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
-    <height>100</height>
+    <width>284</width>
+    <height>104</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>设置</string>
+   <string>Setting</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1" colspan="2">
@@ -26,19 +26,25 @@
       <iconset resource="../../res/resource.qrc">
        <normaloff>:/png/open.png</normaloff>:/png/open.png</iconset>
      </property>
+     <property name="iconSize">
+      <size>
+       <width>18</width>
+       <height>18</height>
+      </size>
+     </property>
     </widget>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>设备</string>
+      <string>Devices</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>保存路径</string>
+      <string>Save Path</string>
      </property>
     </widget>
    </item>
@@ -73,7 +79,7 @@
         </size>
        </property>
        <property name="text">
-        <string>取消</string>
+        <string>Cancel</string>
        </property>
       </widget>
      </item>
@@ -86,7 +92,7 @@
         </size>
        </property>
        <property name="text">
-        <string>保存</string>
+        <string>Save</string>
        </property>
        <property name="default">
         <bool>true</bool>
@@ -104,15 +110,21 @@
       <iconset resource="../../res/resource.qrc">
        <normaloff>:/png/refresh.png</normaloff>:/png/refresh.png</iconset>
      </property>
+     <property name="iconSize">
+      <size>
+       <width>18</width>
+       <height>18</height>
+      </size>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>OptionDialog</class>
+   <class>SettingDialog</class>
    <extends>QWidget</extends>
-   <header>OptionDialog.h</header>
+   <header>SettingDialog.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -131,7 +143,7 @@
   <connection>
    <sender>btnSave</sender>
    <signal>clicked()</signal>
-   <receiver>OptionDialog</receiver>
+   <receiver>SettingDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -147,7 +159,7 @@
   <connection>
    <sender>btnCancel</sender>
    <signal>clicked()</signal>
-   <receiver>OptionDialog</receiver>
+   <receiver>SettingDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
