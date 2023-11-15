@@ -7,6 +7,4 @@
 # Description
 
 - Qt version of uiautomatorviewer
-- Speed up screenshot capturing
-- Automatically save each screenshot
-- Ability to open saved screenshots
+- Ability to Automatically save screenshot and layout
