@@ -89,7 +89,6 @@ QPoint MainWindow::actualPos2picturePos(const QPoint &pos) {
 
 
 void MainWindow::on_treWidget_itemClicked(QTreeWidgetItem *item, int column) {
-    qDebug() << "colum: " << column;
     showNodeDetail(item);
     // display box
     auto map = item->data(0, Qt::UserRole).value<QMap<QString, QString>>();
@@ -229,14 +228,13 @@ void MainWindow::on_btnNext_clicked() {
 }
 
 void MainWindow::on_actScreenshot_triggered() {
-    QString uiDumpPath = QDir::tempPath() + "/uidump.xml";
-    QString uiShotPath = QDir::tempPath() + "/uidump.png";
-
     auto setting = UiSetting::getInstance();
+    if (!Adb::devices().contains(setting->ipPort)) setting->ipPort = "";
 
+    QString uiDumpPath = QDir::tempPath() + "/dump.xml";
+    QString uiShotPath = QDir::tempPath() + "/dump.png";
     if (!setting->saveMenu.isEmpty()) {
         QDir dir(setting->saveMenu);
-
         if (dir.exists()) {
             QString dateString = QDateTime::currentDateTime().toString("yyyyMMddHHmmsszzz");
             uiDumpPath = setting->saveMenu + "/" + dateString + ".xml";
@@ -244,68 +242,37 @@ void MainWindow::on_actScreenshot_triggered() {
         }
     }
 
-    static QString UIAUTOMATOR = "/system/bin/uiautomator";
-    static QString UIAUTOMATOR_DUMP_COMMAND = "dump";
-    static QString UIDUMP_DEVICE_PATH = "/data/local/tmp/uidump.xml";
-    static QString UIDUMP_SHOT_PATH = "/data/local/tmp/uishot.png";
-    static QString ADB_UIDUMP_DEVICE_DIR = "/data/local/tmp/local/tmp/";
-    static QString ADB_UIDUMP_DEVICE_PATH = ADB_UIDUMP_DEVICE_DIR + "uidump.xml";
+    QStringList commands = {"adb devices"};
+    commands << "adb %s shell mkdir -p /data/local/tmp/"
+             << "adb %s shell uiautomator dump /data/local/tmp/dump.xml"
+             << "adb %s shell screencap -p /data/local/tmp/dump.png"
+             << QString(R"(adb %s pull /data/local/tmp/dump.xml "%1")").arg(uiDumpPath)
+             << QString(R"(adb %s pull /data/local/tmp/dump.png "%1")").arg(uiShotPath)
+             << "adb %s shell rm /data/local/tmp/dump.xml"
+             << "adb %s shell rm /data/local/tmp/dump.png";
 
-    static QString UIAUTOMATOR_TEST_COMMAND = "runtest LvmamaXmlKit.jar";
-    static QString UIAUTOMATOR_TEST_COMMAND_ARGS = "-c com.lvmama.uidump.DumpXml";
-
-    QString output, errOutput;
-
-
-    if (!Adb::devices().contains(setting->ipPort)) setting->ipPort = "";
-    QString currentPath = QCoreApplication::applicationDirPath();
-
-    // 检查路径是否含有空格
-    QStringList paths = {
-            uiDumpPath, uiShotPath, currentPath
-    };
-    for (auto &path: paths) {
-        if (path.contains(" ")) {
-            QMessageBox::critical(this, "错误", "路径不能有空格: " + path);
-            return;
-        }
-    }
-
-    QStringList commands = QStringList()
-            << "adb devices"
-            << "adb %s shell mkdir -p " + ADB_UIDUMP_DEVICE_DIR
-            << QString("adb %s push %1 /data/local/tmp/").arg(currentPath + "/LvmamaXmlKit.jar")
-            << QString("adb %s shell %1 %2 %3").arg(UIAUTOMATOR, UIAUTOMATOR_TEST_COMMAND,
-                                                    UIAUTOMATOR_TEST_COMMAND_ARGS)
-            << "adb %s shell mv " + ADB_UIDUMP_DEVICE_PATH + " /data/local/tmp"
-            << QString("adb %s pull %1 %2").arg(UIDUMP_DEVICE_PATH, uiDumpPath)
-            << QString("adb %s pull %1 %2").arg(UIDUMP_SHOT_PATH, uiShotPath)
-            << "adb %s shell rm " + UIDUMP_SHOT_PATH
-            << "adb %s shell rm " + UIDUMP_DEVICE_PATH;
-
-    bool ret = false;
+    bool success = true;
     int size = (int) commands.size();
+    QString output, errOutput;
     for (int i = 0; i < size; ++i) {
         const QString &command = commands.at(i);
-        ret = Adb::adb(command, output, errOutput);
-        if (ret || (i != 3 && i != 5 && i != 6)) {
-            ret = true;
-            ui->progressBar->setValue((i + 1) * (100 / size));
-        } else {
+        if (!Adb::adb(command, output, errOutput)) {
+            success = false;
             break;
         }
+        ui->progressBar->setValue((i + 1) * (100 / size));
     }
     ui->progressBar->setValue(100);
-    if (ret) {
+    if (success) {
         pngPath = uiShotPath;
         uixPath = uiDumpPath;
         showPicture(pngPath, uixPath);
     } else {
-        QMessageBox::critical(this, "错误", errOutput);
+        QMessageBox::critical(this, tr("Error"), errOutput);
+        ui->progressBar->reset();
     }
 }
 
-// 设置
 void MainWindow::on_actSetting_triggered() {
     SettingDialog option(this);
     option.exec();

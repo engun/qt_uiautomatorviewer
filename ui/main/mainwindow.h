@@ -65,13 +65,13 @@ private:
 private:
     Ui::MainWindow *ui;
     QPixmap *originalPixmap{};
-    QPixmap actualPixmap;
-    ManageTreeXml xml;
-    QString pngPath;
-    QString uixPath;
+    QPixmap actualPixmap{};
+    ManageTreeXml xml{};
+    QString pngPath{};
+    QString uixPath{};
     Qt::PenStyle penStyle{Qt::DotLine};
     QTreeWidgetItem *currentItem{};
-    QRect solidLineRect;
+    QRect solidLineRect{};
     QList<QTreeWidgetItem *> searchResultItems;
     int searchResultIndex{};
 };
