@@ -26,13 +26,15 @@ file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}
         "utils/*"
         )
 
+find_package(Qt6 COMPONENTS Core Gui Widgets Xml LinguistTools REQUIRED)
+
+set(TS_FILES ${CMAKE_SOURCE_DIR}/lang/zh_CN.ts)
+qt_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${TS_FILES})
+
 if (CMAKE_BUILD_TYPE MATCHES Debug)
-    message("Debug Build")
-    add_executable(uav main.cpp ${SOURCES} ${PATH_RC_VERSION} ${PATH_H_VERSION})
+    add_executable(uav main.cpp ${SOURCES} ${PATH_RC_VERSION} ${PATH_H_VERSION} ${TS_FILES} ${QM_FILES})
 elseif (CMAKE_BUILD_TYPE MATCHES Release)
-    message("Release Build")
-    add_executable(uav WIN32 main.cpp ${SOURCES} ${PATH_RC_VERSION} ${PATH_H_VERSION})
+    add_executable(uav WIN32 main.cpp ${SOURCES} ${PATH_RC_VERSION} ${PATH_H_VERSION} ${TS_FILES} ${QM_FILES})
 endif ()
 
-find_package(Qt6 COMPONENTS Core Gui Widgets Xml REQUIRED)
 target_link_libraries(uav PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Xml)
